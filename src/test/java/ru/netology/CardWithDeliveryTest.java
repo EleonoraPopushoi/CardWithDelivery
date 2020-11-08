@@ -37,23 +37,6 @@ public class CardWithDeliveryTest {
         $(withText("Успешно!")).waitUntil(visible, 15000);
     }
 
-    // @Test
-    //    void shouldSubmitRequests() {
-    //        $("[data-test-id=city] input").setValue("Астрахань");
-    //        $("[data-test-id=date] input").doubleClick().sendKeys(formatter.format(newDate));
-    //        $("[data-test-id=name] input").setValue("Игорь Витальевич");
-    //        $("[data-test-id=phone] input").setValue("+79012345678");
-    //        $("[data-test-id=agreement]").click();
-    //        $("button").click();
-    //        $(withText("Успешно!")).waitUntil(visible, 15000);
-    //        $("input[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.BACK_SPACE);
-    //        $("[data-test-id=date] input").doubleClick().sendKeys(formatter.format(newDate));
-    //        $("button").click();
-    //        $(withText("Встреча успешно заброниронирована на 11.11.2020")).waitUntil(visible, 15000);
-    //        $("[data-test-id=date] button.button").click();
-    //        $(withText("Успешно!")).waitUntil(visible, 15000);
-    //    }
-
 
     @Test
     void shouldSubmitRequestWithDropDownList() {
