@@ -1,25 +1,33 @@
-package ru.netology.rest;
+package ru.netology;
 
+import com.codeborne.selenide.Condition;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
 
-public class CardWithDelivery {
-
+public class CardWithDeliveryTest {
     LocalDate today = LocalDate.now();
     LocalDate newDate = today.plusDays(3);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    @BeforeEach
+    void setUp() {
+        open("http://localhost:9999/");
+    }
+
     @Test
     void shouldSubmitRequest() {
-        open("http://localhost:9999/");
         $("[data-test-id=city] input").setValue("Астрахань");
         $("[data-test-id=date] input").doubleClick().sendKeys(formatter.format(newDate));
         $("[data-test-id=name] input").setValue("Игорь Витальевич");
@@ -27,14 +35,30 @@ public class CardWithDelivery {
         $("[data-test-id=agreement]").click();
         $(By.className("button")).click();
         $(withText("Успешно!")).waitUntil(visible, 15000);
-
     }
+
+    // @Test
+    //    void shouldSubmitRequests() {
+    //        $("[data-test-id=city] input").setValue("Астрахань");
+    //        $("[data-test-id=date] input").doubleClick().sendKeys(formatter.format(newDate));
+    //        $("[data-test-id=name] input").setValue("Игорь Витальевич");
+    //        $("[data-test-id=phone] input").setValue("+79012345678");
+    //        $("[data-test-id=agreement]").click();
+    //        $("button").click();
+    //        $(withText("Успешно!")).waitUntil(visible, 15000);
+    //        $("input[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.BACK_SPACE);
+    //        $("[data-test-id=date] input").doubleClick().sendKeys(formatter.format(newDate));
+    //        $("button").click();
+    //        $(withText("Встреча успешно заброниронирована на 11.11.2020")).waitUntil(visible, 15000);
+    //        $("[data-test-id=date] button.button").click();
+    //        $(withText("Успешно!")).waitUntil(visible, 15000);
+    //    }
+
 
     @Test
     void shouldSubmitRequestWithDropDownList() {
-        open("http://localhost:9999");
         $("[data-test-id=city] input").setValue("Мо");
-        $$(".menu-item").first().click();
+        $$(".menu-item").find(exactText("Москва")).click();
         $("[data-test-id=date]").click();
         $(".calendar__day_state_current").click();
         $("[data-test-id=name] input").setValue("Игорь Витальевич");
@@ -46,65 +70,60 @@ public class CardWithDelivery {
 
     @Test
     void shouldNotSubmitWithoutCity() {
-        open("http://localhost:9999");
         $("[data-test-id=date] input").doubleClick().sendKeys(formatter.format(newDate));
         $("[name=name]").setValue("Игорь Витальевич");
         $("[name=phone]").setValue("+79012345678");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $(".input_type_text.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
     void shouldNotSubmitWithoutName() {
-        open("http://localhost:9999");
-        $("[data-test-id=city] input").setValue("Мо");
-        $$(".menu-item").first().click();
+        $("[data-test-id=city] input").setValue("Ас");
+        $$(".menu-item").find(exactText("Астрахань")).click();
         $("[data-test-id=date]").click();
         $(".calendar__day_state_current").click();
         $("[name=phone]").setValue("+79012345678");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $(".input_type_text.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
     void shouldNotSubmitWithIncorrectName() {
-        open("http://localhost:9999");
         $("[data-test-id=city] input").setValue("Ка");
-        $$(".menu-item").first().click();
+        $$(".menu-item").find(exactText("Калининград")).click();
         $("[data-test-id=date]").click();
         $(".calendar__day_state_current").click();
         $("[name=name]").setValue("Vasiliy Ivanov");
         $("[name=phone]").setValue("+79012345678");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
+        $(".input_type_text.input_invalid .input__sub").shouldHave(exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
     }
 
     @Test
     void shouldNotSubmitWithoutPhone() {
-        open("http://localhost:9999");
         $("[data-test-id=city] input").setValue("Ка");
-        $$(".menu-item").first().click();
+        $$(".menu-item").find(exactText("Калининград")).click();
         $("[data-test-id=date]").click();
         $(".calendar__day_state_current").click();
         $("[name=name]").setValue("Игорь Витальевич");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $(".input_type_tel.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
     void shouldNotSubmitWithoutCheckbox() {
-        open("http://localhost:9999");
-        $("[data-test-id=city] input").setValue("Ка");
-        $$(".menu-item").first().click();
+        $("[data-test-id=city] input").setValue("Кр");
+        $$(".menu-item").find(exactText("Краснодар")).click();
         $("[data-test-id=date]").click();
         $(".calendar__day_state_current").click();
         $("[name=name]").setValue("Игорь Витальевич");
         $("[name=phone]").setValue("+79012345678");
         $(".button__text").click();
-        $(".input_invalid").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
+        $(".checkbox_size_m.input_invalid .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
     }
 }
