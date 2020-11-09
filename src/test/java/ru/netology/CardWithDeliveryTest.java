@@ -34,7 +34,7 @@ public class CardWithDeliveryTest {
         $("[data-test-id=phone] input").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
         $(By.className("button")).click();
-        $(withText("Успешно!")).waitUntil(visible, 15000);
+        $("[data-test-id='notification'.notification__content").shouldHave(exactText("Успешно! Встреча успешно запланирована на 12.11.2020"));
     }
 
 
@@ -58,7 +58,7 @@ public class CardWithDeliveryTest {
         $("[name=phone]").setValue("+79012345678");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_type_text.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $("[data-test-id='city'].input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CardWithDeliveryTest {
         $("[name=phone]").setValue("+79012345678");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_type_text.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $("[data-test-id='name'].input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class CardWithDeliveryTest {
         $("[name=phone]").setValue("+79012345678");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_type_text.input_invalid .input__sub").shouldHave(exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
+        $("[data-test-id='name'].input_invalid .input__sub").shouldHave(exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class CardWithDeliveryTest {
         $("[name=name]").setValue("Игорь Витальевич");
         $(".checkbox__box").click();
         $(".button__text").click();
-        $(".input_type_tel.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
