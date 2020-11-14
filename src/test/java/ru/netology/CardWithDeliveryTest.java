@@ -33,8 +33,9 @@ public class CardWithDeliveryTest {
         $("[data-test-id=phone] input").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
         $(By.className("button")).click();
-        $("[data-test-id='success-notification'].notification__content").waitUntil(visible,15000).shouldHave(exactText("Встреча успешно запланирована на" + formatter.format(newDate)));
         $(withText("Успешно!")).waitUntil(visible, 15000);
+        $("[data-test-id='notification'] .notification__content").shouldHave(exactText("Встреча успешно забронирована на " + formatter.format(newDate)));
+
     }
 
 
@@ -49,7 +50,7 @@ public class CardWithDeliveryTest {
         $("[data-test-id=agreement]").click();
         $(By.className("button")).click();
         $(withText("Успешно!")).waitUntil(visible, 15000);
-        $("[data-test-id='notification'].notification__content").waitUntil(visible,15000).shouldHave(exactText("Встреча успешно запланирована на " + formatter.format(newDate)));
+        $("[data-test-id='notification'] .notification__content").shouldHave(exactText("Встреча успешно забронирована на " + formatter.format(newDate)));
     }
 
     @Test
